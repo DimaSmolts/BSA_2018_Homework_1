@@ -48,6 +48,7 @@ namespace Project
 						AllUsersTodo();
 						break;
 					case "5":
+						UserInfo();
 						break;
 					case "6":
 						break;
@@ -169,6 +170,63 @@ namespace Project
 					Console.WriteLine("\t\tno todos");					
 				}
 		}
+		public static void UserInfo()
+		{
+			int? tempIndex = IdInput();
+
+			if (tempIndex != null && (tempIndex > 0 && tempIndex < myUserDB.Count))
+			{
+				UserInfo UI = new UserInfo();
+
+				var selectedUser = (from u in myUserDB
+									where u.id == tempIndex
+									select u).First();
+				UI.user = selectedUser;
+
+				if (selectedUser.PostList.Count != 0)
+				{
+					var lastPost = (from p in selectedUser.PostList.OrderByDescending(d => d.createdAt)
+									select p).First();
+					UI.lastPost = lastPost;
+
+					var lastPostComments = lastPost.CommentList.Count;
+					UI.lastPostComments = lastPostComments;
+
+					var mostCommentsPost = (from p in selectedUser.PostList
+											select p)
+											.Aggregate((i1, i2) => i1.CommentList.Count > i2.CommentList.Count ? i1 : i2);
+					UI.mostCommentsPost = mostCommentsPost;
+
+					var mostLikesPost = (from p in selectedUser.PostList
+									 select p)
+									 .Aggregate((i1, i2) => i1.likes > i2.likes ? i1 : i2);
+					UI.mostLikesPost = mostLikesPost;
+
+				}
+
+				var todos = (from u in myUserDB
+							 where u.id == tempIndex							
+							 select u.TodoList).First();
+				var notComletedtodo = (from t in todos
+									   where t.isComplete == false
+									   select t).Count();
+				UI.notCompleteddTodo = notComletedtodo;
+
+
+				Console.WriteLine($"User: {UI.user.id} {UI.user.name}\n"+
+								  $"Last Post: {UI.lastPost}\n" +
+								  $"Comments: {UI.lastPostComments}\n" +
+								  $"Most commented: {UI.mostCommentsPost}\n" +
+								  $"Most likes: {UI.mostLikesPost}\n" +
+								  $"Not completed: {UI.notCompleteddTodo}\n");				
+
+
+			}
+			else
+			{
+				Console.WriteLine("wrong id");
+			}
+		}
 		public static List<User> SendRequest()
 		{
 			var client = new HttpClient();
@@ -244,5 +302,7 @@ namespace Project
 			}
 			return tempIndex;
 		}
+
+
 	}
 }

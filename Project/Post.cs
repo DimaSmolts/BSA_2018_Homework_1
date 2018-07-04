@@ -15,5 +15,10 @@ namespace Project
 		public int userId { get; set; }
 		public int likes { get; set; }
 		public List<Comment> CommentList = new List<Comment>();
+
+		public override string ToString()
+		{
+			return string.Format($"{id} - {title}");
+		}
 	}
 }
