@@ -11,7 +11,7 @@ namespace Project
 		public int id { get; set; }
 		public DateTime createdAt { get; set; }
 		public string name { get; set; }
-		public bool isCompleted { get; set; }
+		public bool isComplete { get; set; }
 		public int userId { get; set; }
 	}
 }

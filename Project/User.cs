@@ -13,7 +13,7 @@ namespace Project
 		public string name { get; set; }
 		public string avatar { get; set; }
 		public List<Post> PostList = new List<Post>();
-		public List<Todo> TodoList;
+		public List<Todo> TodoList = new List<Todo>();
 		public Address address { get; set; }
 	}
 }

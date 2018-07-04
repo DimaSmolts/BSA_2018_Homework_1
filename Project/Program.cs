@@ -42,6 +42,7 @@ namespace Project
 						Comments();
 						break;
 					case "3":
+						CompletedTodo();
 						break;
 					case "4":
 						break;
@@ -125,7 +126,36 @@ namespace Project
 				}
 			}
 		}
+		public static void CompletedTodo()
+		{
+			int? tempIndex = IdInput();
 
+			if (tempIndex != null && (tempIndex > 0 && tempIndex < myUserDB.Count))
+			{
+				var todos = (from u in myUserDB
+							where u.id == tempIndex
+							select u.TodoList).First();
+				if (todos.Count != 0)
+				{
+					var comletedtodo = from t in todos
+									   where t.isComplete == true
+									   select t;
+					if (comletedtodo.Count() != 0)
+						foreach (var item in comletedtodo)
+							Console.WriteLine($"Is Completed: {item.id} - {item.name}");
+					else
+						Console.WriteLine("no completed todos");
+				}
+				else
+				{
+					Console.WriteLine("no todos");
+				}
+			}
+			else
+			{
+				Console.WriteLine("wrong id");
+			}
+		}
 		public static List<User> SendRequest()
 		{
 			var client = new HttpClient();
