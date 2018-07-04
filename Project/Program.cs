@@ -183,7 +183,6 @@ namespace Project
 									where u.id == tempIndex
 									select u).First();
 				UI.user = selectedUser;
-
 				if (selectedUser.PostList.Count != 0)
 				{
 					var lastPost = (from p in selectedUser.PostList.OrderByDescending(d => d.createdAt)
@@ -195,11 +194,11 @@ namespace Project
 
 					var mostCommentsPost = (from p in selectedUser.PostList
 											select p)
-											.Aggregate((i1, i2) => i1.CommentList.Count > i2.CommentList.Count ? i1 : i2);
+											.Aggregate((i1, i2) => i1.CommentList.Count(x => x.body.Length>80) > i2.CommentList.Count(x => x.body.Length > 80) ? i1 : i2);
 					UI.mostCommentsPost = mostCommentsPost;
 
 					var mostLikesPost = (from p in selectedUser.PostList
-									 select p)
+										 select p)
 									 .Aggregate((i1, i2) => i1.likes > i2.likes ? i1 : i2);
 					UI.mostLikesPost = mostLikesPost;
 
