@@ -14,5 +14,10 @@ namespace Project
 		public int userId { get; set; }
 		public int PostId { get; set; }
 		public int likes { get; set; }
+
+		public override string ToString()
+		{
+			return string.Format($"{body}");
+		}
 	}
 }

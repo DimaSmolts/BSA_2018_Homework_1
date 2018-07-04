@@ -49,6 +49,7 @@
     <Compile Include="Address.cs" />
     <Compile Include="Comment.cs" />
     <Compile Include="Post.cs" />
+    <Compile Include="PostInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Todo.cs" />

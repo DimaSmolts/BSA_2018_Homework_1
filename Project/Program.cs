@@ -51,6 +51,7 @@ namespace Project
 						UserInfo();
 						break;
 					case "6":
+						PostInfo();
 						break;
 					case "7":
 						myUserDB = SendRequest();
@@ -226,6 +227,69 @@ namespace Project
 			{
 				Console.WriteLine("wrong id");
 			}
+		}
+		public static void PostInfo()
+		{
+			int? tempIndex;
+
+			Console.WriteLine("\nWrite the id of post");
+			Console.Write("Post id # ");
+			try
+			{
+				tempIndex = Convert.ToInt32(Console.ReadLine());
+
+			}
+			catch (FormatException)
+			{
+				Console.WriteLine("wrong data");
+				tempIndex = null;
+			}
+
+			if (tempIndex != null && tempIndex > 0)
+			{
+				PostInfo PI = new PostInfo();
+
+
+				var BigList = from u in myUserDB
+						   where u.PostList.Count != 0
+						   select u.PostList;
+				
+				List<Post> temp = new List<Post>();
+				foreach (List<Post> lp in BigList.ToList())
+					temp.AddRange(lp);
+
+				var selectedPost = (from p in temp
+									where p.id == tempIndex
+									select p).First();
+				PI.post = selectedPost;
+
+				if(selectedPost.CommentList.Count != 0)
+				{
+					var longComment = (from c in selectedPost.CommentList
+									  select c)
+									  .Aggregate((i1, i2) => i1.body.Length > i2.body.Length ? i1 : i2);
+					PI.longComment = longComment;
+
+					var likedComment = (from c in selectedPost.CommentList
+										select c)
+										.Aggregate((i1, i2) => i1.likes > i2.likes ? i1 : i2);
+					PI.likedComment = likedComment;
+
+					var specialComment = (from c in selectedPost.CommentList
+										  where c.likes == 0 || c.body.Length < 80
+										  select c).Count();
+					PI.SpecialComment = specialComment;
+				}
+				Console.WriteLine($"Post: {PI.post.id} {PI.post.title}\n" +
+								  $"LongComment: {PI.longComment}\n" +
+								  $"LikedComment: {PI.likedComment}\n" +
+								  $"Amount special: {PI.SpecialComment}\n");		  
+			}
+			else
+			{
+				Console.WriteLine("wrong id");
+			}
+
 		}
 		public static List<User> SendRequest()
 		{
