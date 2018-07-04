@@ -21,12 +21,12 @@ namespace Project
 			{
 				Console.WriteLine("\n*******************************************");
 				Console.WriteLine("  choose the task (enter only one number)");
-				Console.WriteLine("  1 ");
-				Console.WriteLine("  2 ");
-				Console.WriteLine("  3 ");
-				Console.WriteLine("  4 ");
-				Console.WriteLine("  5 ");
-				Console.WriteLine("  6 ");
+				Console.WriteLine("  1 - Get amount of comments (by user.id)");
+				Console.WriteLine("  2 - Get comment list (by user.id)");
+				Console.WriteLine("  3 - Get completed todos (by user.id)");
+				Console.WriteLine("  4 - Get list of ordered users and todos");
+				Console.WriteLine("  5 - Get user info (by user.id)");
+				Console.WriteLine("  6 - Get post info (by post.id)");
 				Console.WriteLine("  7 - Update");
 				Console.WriteLine("  8 - Exit");
 				Console.WriteLine("*******************************************");
