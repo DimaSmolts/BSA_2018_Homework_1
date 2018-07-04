@@ -39,6 +39,7 @@ namespace Project
 						CommentAmount();						
 						break;
 					case "2":
+						Comments();
 						break;
 					case "3":
 						break;
@@ -69,7 +70,7 @@ namespace Project
 			{
 				var respo = from p in								
 								(from u in myUserDB
-								 where u.id == tempIndex && u.PostList != null
+								 where u.id == tempIndex 
 								 select u.PostList).Single()								
 							select new { Title = p.title, Amount = p.CommentList.Count };
 				
@@ -84,6 +85,47 @@ namespace Project
 				Console.WriteLine("wrong id");
 			}
 		}
+		public static void Comments()
+		{
+			int? tempIndex = IdInput();
+
+			if (tempIndex != null && (tempIndex > 0 && tempIndex < myUserDB.Count))
+			{
+				var selectedPostList = (from u in myUserDB
+									   where u.id == tempIndex 
+									   select u.PostList).First();
+				if (selectedPostList.Count() != 0)
+				{
+					var selectedCommentLists = (from p in selectedPostList
+												select p.CommentList).First();
+
+					if (selectedCommentLists.Count() != 0)
+					{
+						var selectedComments = from c in selectedCommentLists
+											   where c.body.Length < 50
+											   select c;
+						if (selectedComments.Count() != 0)
+						{
+							foreach (Comment com in selectedComments)
+								Console.WriteLine($"Comment: {com.body}");
+						}
+						else
+						{
+							Console.WriteLine("all coments are more than 50 characters");
+						}
+					}
+					else
+					{
+						Console.WriteLine("no comments");
+					}
+				}
+				else
+				{
+					Console.WriteLine("no posts");
+				}
+			}
+		}
+
 		public static List<User> SendRequest()
 		{
 			var client = new HttpClient();

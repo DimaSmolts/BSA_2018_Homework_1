@@ -12,7 +12,7 @@ namespace Project
 		public DateTime createdAt { get; set; }
 		public string name { get; set; }
 		public string avatar { get; set; }
-		public List<Post> PostList;
+		public List<Post> PostList = new List<Post>();
 		public List<Todo> TodoList;
 		public Address address { get; set; }
 	}

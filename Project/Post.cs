@@ -14,6 +14,6 @@ namespace Project
 		public string body { get; set; }
 		public int userId { get; set; }
 		public int likes { get; set; }
-		public List<Comment> CommentList;
+		public List<Comment> CommentList = new List<Comment>();
 	}
 }
