@@ -45,6 +45,7 @@ namespace Project
 						CompletedTodo();
 						break;
 					case "4":
+						AllUsersTodo();
 						break;
 					case "5":
 						break;
@@ -155,6 +156,18 @@ namespace Project
 			{
 				Console.WriteLine("wrong id");
 			}
+		}
+		public static void AllUsersTodo()
+		{
+				foreach(User u in myUserDB.OrderBy( user => user.name))
+				{
+					Console.WriteLine($"{u.id} {u.name}");
+				if (u.TodoList.Count() != 0)
+					foreach (Todo t in u.TodoList.OrderByDescending(todo => todo.name.Length))
+						Console.WriteLine($"\t{(t.isComplete ? '+' : '-')}\ttodo:{t.name}");
+				else
+					Console.WriteLine("\t\tno todos");					
+				}
 		}
 		public static List<User> SendRequest()
 		{
