@@ -15,6 +15,7 @@ namespace Project
 
 		static void Main(string[] args)
 		{
+			myUserDB = SendRequest();
 			Console.WriteLine("Hello Binary Studio Academy 2018!");
 			while (true)
 			{
