@@ -34,7 +34,8 @@ namespace Project
 				Console.WriteLine("*******************************************");
 				switch (input)
 				{
-					case "1":						
+					case "1":
+						CommentAmount();						
 						break;
 					case "2":
 						break;
@@ -57,6 +58,29 @@ namespace Project
 						Console.WriteLine("wrong input");
 						break;
 				}
+			}
+		}
+		public static void CommentAmount()
+		{
+			int? tempIndex = IdInput();
+
+			if (tempIndex != null && (tempIndex > 0 && tempIndex < myUserDB.Count)) 
+			{
+				var respo = from p in								
+								(from u in myUserDB
+								 where u.id == tempIndex && u.PostList != null
+								 select u.PostList).Single()								
+							select new { Title = p.title, Amount = p.CommentList.Count };
+				
+				if (respo.ToList().Count != 0)
+					foreach (var item in respo)
+						Console.WriteLine($"Title:{item.Title}, Comment amount: {item.Amount}");
+				else
+					Console.WriteLine("no posts");				
+			}
+			else
+			{
+				Console.WriteLine("wrong id");
 			}
 		}
 		public static List<User> SendRequest()
@@ -114,6 +138,25 @@ namespace Project
 					u.address = selectedAddress.ToList()[0];
 			}
 			return userList;
+		}
+
+		public static int? IdInput()
+		{
+			int? tempIndex;
+
+			Console.WriteLine("\nWrite the id of user");
+			Console.Write("User id # ");
+			try
+			{
+				tempIndex = Convert.ToInt32(Console.ReadLine());
+
+			}
+			catch (FormatException)
+			{
+				Console.WriteLine("wrong data");
+				tempIndex = null;
+			}
+			return tempIndex;
 		}
 	}
 }
